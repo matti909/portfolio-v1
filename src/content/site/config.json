@@ -1,0 +1,31 @@
+{
+  "home": {
+    "name": "Matti Dev",
+    "title": "Programador FullStack",
+    "introduction": "Soy un Programador FullStack enfocado en aplicaciones Empresariales e Infraestructura en la nube.",
+    "sections": {
+      "blog": {
+        "title": "Writing",
+        "viewAllText": "View all posts"
+      },
+      "projects": {
+        "title": "Projects",
+        "viewAllText": "View all projects"
+      },
+      "experience": {
+        "title": "Experience",
+        "viewAllText": "View full résumé"
+      }
+    },
+    "socialLinks": [
+      {
+        "platform": "GitHub",
+        "url": "https://github.com/matti909"
+      },
+      {
+        "platform": "Linkedin",
+        "url": "https://linkedin.com/matti909"
+      }
+    ]
+  }
+}

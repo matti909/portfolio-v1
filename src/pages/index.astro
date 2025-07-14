@@ -1,12 +1,195 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Container from '../components/ui/Container.astro'
+import ContentList from '../components/ui/ContentList.astro'
+import Section from '../components/ui/Section.astro'
+import { getCollection, getEntry } from "astro:content"
+import type { CollectionEntry } from "astro:content"
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const experiences = await getCollection("experience");
+const projects = await getCollection("projects");
+
+const siteConfig = await getEntry("site", "home");
+if (!siteConfig) {
+  throw new Error("Site configuration not found");
+}
+
+const site = siteConfig.data;
+
+const formatDate = (date: Date | undefined) => {
+  if (!date) return "";
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
+};
 ---
 
 <Layout>
+  <Container>
+    <section class="hero">
+       <h1>{site.name}</h1>
+      <p class="subtitle">{site.title}</p>
+      <p class="introduction">{site.introduction}</p>
+      {
+        site.socialLinks && (
+          <div class="social-links">
+            {site.socialLinks.map(({ platform, url }) => (
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                {platform}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </section>
 
-  <h1>Portfolio</h1>
+    <section class="section">
+
+
+      <section class="section">
+      <div class="section-header">
+        <h2>{site.sections.projects.title}</h2>
+        <a href="/projects">{site.sections.projects.viewAllText}</a>
+      </div>
+      <ContentList>
+        {
+          projects.map((project) => (
+            <article>
+              <div class="title-row">
+                <a href={project.data.url} target="_blank" rel="noopener noreferrer">
+                  {project.data.title}
+                </a>
+              </div>
+              <p class="muted-text">{project.data.description}</p>
+              {project.data.techs && (
+                <div class="tags">
+                  {project.data.techs.map((tech) => (
+                    <span>{tech}</span>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))
+        }
+      </ContentList>
+    </section>
+      
+      <div class="section-header">
+        <h2>{site.sections.experience.title}</h2>
+        <a href="/experience">{site.sections.experience.viewAllText}</a>
+      </div>
+      <div class="content-list">
+        {
+          experiences.slice(0, 2).map((exp) => (
+            <article>
+              <div class="title-row">
+                <div class="company-info">
+                  <img src={exp.data.logo} alt="" class="company-logo" />
+                  <span>{exp.data.title}</span>
+                </div>
+                <time>
+                {
+                  (exp.data.startDate).toLocaleDateString(
+                  "arg-AR", { month: "short", day: "numeric"})} -
+                  {exp.data.current ? "Present" : (exp.data.endDate)
+                }
+                </time>
+              </div>
+              <p class="muted-text">{exp.data.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </Container>
 </Layout>
+
+
+<style>
+  main {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+
+  .hero {
+    padding: 4rem 0;
+  }
+
+  .introduction {
+    margin: 1.5rem 0;
+    opacity: 0.9;
+  }
+
+  .section {
+    margin: 4rem 0;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2rem;
+    opacity: 0.7;
+  }
+
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: var(--text-sm);
+  }
+
+  .company-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .company-logo {
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+  }
+
+  time {
+    font-size: var(--text-xs);
+    opacity: 0.5;
+    white-space: nowrap;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .tags span {
+    font-size: var(--text-xs);
+    opacity: 0.5;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 640px) {
+    main {
+      padding: 1rem 0;
+    }
+
+    .hero {
+      padding: 3rem 0;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+  }
+</style>
