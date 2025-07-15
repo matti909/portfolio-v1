@@ -3,7 +3,7 @@ dist/
 bun.lock
 # generated types
 .astro/
-public/*
+
 # dependencies
 node_modules/
 
