@@ -9,8 +9,8 @@ export default defineConfig({
       port: 3000,
     },
     plugins: [],
+    publicDir: "./public/images",
   },
 
   adapter: vercel(),
 });
-
