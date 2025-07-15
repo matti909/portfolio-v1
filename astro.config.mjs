@@ -9,7 +9,7 @@ export default defineConfig({
       port: 3000,
     },
     plugins: [],
-    publicDir: "./public/images",
+    publicDir: "./public/images/companies",
   },
 
   adapter: vercel(),
