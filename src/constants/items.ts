@@ -14,11 +14,7 @@ export const SITE = {
 export const NAVIGATION: {
   main: NavigationItem[];
 } = {
-  main: [
-    { name: "Home", path: "/" },
-    { name: "Blog", path: "/blog" },
-    { name: "Notes", path: "/notes" },
-  ],
+  main: [{ name: "Home", path: "/" }],
 } as const;
 
 export const CONTENT = {

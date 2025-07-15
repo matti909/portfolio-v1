@@ -50,7 +50,6 @@ const formatDate = (date: Date | undefined) => {
       <section class="section">
       <div class="section-header">
         <h2>{site.sections.projects.title}</h2>
-        <a href="/projects">{site.sections.projects.viewAllText}</a>
       </div>
       <ContentList>
         {
@@ -77,7 +76,6 @@ const formatDate = (date: Date | undefined) => {
       
       <div class="section-header">
         <h2>{site.sections.experience.title}</h2>
-        <a href="/experience">{site.sections.experience.viewAllText}</a>
       </div>
       <div class="content-list">
         {
@@ -86,13 +84,16 @@ const formatDate = (date: Date | undefined) => {
               <div class="title-row">
                 <div class="company-info">
                   <img src={exp.data.logo} alt="" class="company-logo" />
+              <hr>
+              ||
+              <hr>
                   <span>{exp.data.title}</span>
                 </div>
                 <time>
                 {
                   (exp.data.startDate).toLocaleDateString(
-                  "arg-AR", { month: "short", day: "numeric"})} -
-                  {exp.data.current ? "Present" : (exp.data.endDate)
+                  "arg-AR", { year: "numeric", month: "short", day: "numeric"})} -
+              {exp.data.current ? "Present" : (exp.data.endDate)?.toLocaleDateString("arg-AR", {year: "numeric", month: "short", day: "numeric"})
                 }
                 </time>
               </div>
@@ -150,8 +151,8 @@ const formatDate = (date: Date | undefined) => {
   }
 
   .company-logo {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 5rem;
+    height: 5rem;
     object-fit: contain;
   }
 
