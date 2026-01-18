@@ -14,11 +14,13 @@ export const SITE = {
 export const NAVIGATION = {
   es: [
     { name: "Inicio", path: "/" },
+    { name: "Skills", path: "/skills" },
     { name: "Blog", path: "/blog" },
     { name: "Contacto", path: "/contact" },
   ],
   en: [
     { name: "Home", path: "/en" },
+    { name: "Skills", path: "/en/skills" },
     { name: "Blog", path: "/en/blog" },
     { name: "Contact", path: "/en/contact" },
   ],

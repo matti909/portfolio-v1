@@ -57,9 +57,18 @@ const formatDate = (date: Date | undefined) => {
           projects.map((project) => (
             <article class="card-brutal">
               <div class="title-row">
-                <a href={project.data.url} target="_blank" rel="noopener noreferrer">
-                  {project.data.title}
-                </a>
+                {project.data.url ? (
+                  <a href={project.data.url} target="_blank" rel="noopener noreferrer">
+                    {project.data.title}
+                  </a>
+                ) : (
+                  <span class="project-title">{project.data.title}</span>
+                )}
+                {project.data.github && (
+                  <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="github-link">
+                    GitHub
+                  </a>
+                )}
               </div>
               <p class="text-muted">{project.data.description}</p>
               {project.data.techs && (
@@ -81,11 +90,11 @@ const formatDate = (date: Date | undefined) => {
       </div>
       <div class="content-list">
         {
-          experiences.slice(0, 2).map((exp) => (
+          experiences.map((exp) => (
             <article class="card-brutal">
               <div class="title-row">
                 <div class="company-info">
-                  <img src={exp.data.logo} alt={exp.data.company} class="company-logo" />
+                  {exp.data.logo && <img src={exp.data.logo} alt={exp.data.company} class="company-logo" />}
                   <div class="company-details">
                     {exp.data.url ? (
                       <a href={exp.data.url} target="_blank" rel="noopener noreferrer" class="company-name">
@@ -155,6 +164,17 @@ const formatDate = (date: Date | undefined) => {
     align-items: baseline;
     gap: var(--space-md);
     margin-bottom: var(--space-md);
+  }
+
+  .project-title {
+    font-weight: 700;
+  }
+
+  .github-link {
+    font-size: var(--text-sm);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
   }
 
   .company-info {
