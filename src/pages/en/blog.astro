@@ -1,0 +1,118 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/ui/Container.astro';
+import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const allBlogPosts = await getCollection('blog', ({ data }) => {
+  return data.lang === lang && !data.draft;
+});
+
+const sortedPosts = allBlogPosts.sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()
+);
+---
+
+<Layout title={`${t('blog.title')} - Matti Dev`}>
+  <Container>
+    <div class="blog-header">
+      <h1>{t('blog.title')}</h1>
+      <p class="subtitle">{t('blog.allPosts')}</p>
+    </div>
+
+    {sortedPosts.length === 0 ? (
+      <div class="empty-state card-brutal">
+        <h2>📝 Coming Soon</h2>
+        <p>I'm working on interesting content to share. Check back soon!</p>
+      </div>
+    ) : (
+      <div class="blog-grid">
+        {sortedPosts.map((post) => (
+          <article class="card-brutal hover-brutal">
+            <time>{post.data.publishedAt.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}</time>
+            <h2>
+              <a href={`/en/blog/${post.id}`}>{post.data.title}</a>
+            </h2>
+            <p class="text-muted">{post.data.description}</p>
+          </article>
+        ))}
+      </div>
+    )}
+  </Container>
+</Layout>
+
+<style>
+  .blog-header {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+  }
+
+  .blog-header h1 {
+    margin-bottom: var(--space-md);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-3xl);
+    margin: var(--space-2xl) 0;
+  }
+
+  .empty-state h2 {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-lg);
+  }
+
+  .empty-state p {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-xl);
+    margin: var(--space-2xl) 0;
+  }
+
+  .blog-grid article {
+    padding: var(--space-xl);
+  }
+
+  .blog-grid h2 {
+    font-size: var(--text-2xl);
+    margin: var(--space-md) 0;
+  }
+
+  .blog-grid h2 a {
+    color: var(--text-color);
+  }
+
+  .blog-grid h2 a:hover {
+    color: var(--accent-primary);
+  }
+
+  .blog-grid time {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .blog-header {
+      padding: var(--space-2xl) 0;
+    }
+  }
+</style>

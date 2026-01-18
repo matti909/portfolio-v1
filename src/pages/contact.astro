@@ -1,0 +1,241 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/ui/Container.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title={`${t('contact.title')} - Matti Dev`}>
+  <Container>
+    <div class="contact-container">
+      <div class="contact-header">
+        <h1>{t('contact.title')}</h1>
+        <p class="subtitle">{t('contact.intro')}</p>
+      </div>
+
+      <form
+        id="contact-form"
+        action="/api/contact"
+        method="POST"
+        class="contact-form"
+      >
+
+        <div class="form-group">
+          <label for="name">{t('contact.name')}</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="input-brutal"
+            placeholder="Tu nombre"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="email">{t('contact.email')}</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="input-brutal"
+            placeholder="tu@email.com"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="message">{t('contact.message')}</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="6"
+            required
+            class="input-brutal"
+            placeholder="Tu mensaje..."
+          ></textarea>
+        </div>
+
+        <div id="form-message" class="form-message"></div>
+
+        <button type="submit" class="btn-brutal submit-btn">
+          {t('contact.send')}
+        </button>
+      </form>
+
+      <div class="contact-info">
+        <h2>📬 Otras formas de contacto</h2>
+        <div class="contact-links">
+          <a href="https://github.com/matti909" target="_blank" class="card-brutal hover-brutal">
+            <span class="icon">💻</span>
+            <span>GitHub</span>
+          </a>
+          <a href="https://linkedin.com/in/matti909" target="_blank" class="card-brutal hover-brutal">
+            <span class="icon">💼</span>
+            <span>LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Layout>
+
+<style>
+  .contact-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-header {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+  }
+
+  .contact-header h1 {
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-form {
+    margin: var(--space-2xl) 0;
+  }
+
+  .form-group {
+    margin-bottom: var(--space-xl);
+  }
+
+  label {
+    display: block;
+    font-weight: 900;
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-sm);
+    text-transform: uppercase;
+  }
+
+  .input-brutal,
+  textarea.input-brutal {
+    resize: vertical;
+    font-family: var(--font-body);
+  }
+
+  .submit-btn {
+    width: 100%;
+    font-size: var(--text-xl);
+    padding: var(--space-lg) var(--space-xl);
+  }
+
+  .form-message {
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+    border: var(--border-width) solid var(--border-color);
+    display: none;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .form-message.success {
+    display: block;
+    background: var(--accent-primary);
+    color: var(--text-color);
+  }
+
+  .form-message.error {
+    display: block;
+    background: var(--accent-secondary);
+    color: white;
+  }
+
+  .contact-info {
+    margin-top: var(--space-3xl);
+    padding-top: var(--space-3xl);
+    border-top: var(--border-width) solid var(--border-color);
+  }
+
+  .contact-info h2 {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .contact-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .contact-links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    text-align: center;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  .contact-links .icon {
+    font-size: var(--text-4xl);
+  }
+
+  @media (max-width: 640px) {
+    .contact-header {
+      padding: var(--space-2xl) 0;
+    }
+
+    .contact-links {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const messageDiv = document.getElementById('form-message') as HTMLDivElement;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const email = formData.get('email') as string;
+
+      // Simple email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        messageDiv.textContent = 'Por favor ingresa un email válido';
+        messageDiv.className = 'form-message error';
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Enviando...';
+      submitBtn.disabled = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          messageDiv.textContent = '¡Mensaje enviado con éxito! Te responderé pronto.';
+          messageDiv.className = 'form-message success';
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Failed to send');
+        }
+      } catch (error) {
+        messageDiv.textContent = 'Error al enviar el mensaje. Por favor intenta de nuevo.';
+        messageDiv.className = 'form-message error';
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+  }
+</script>

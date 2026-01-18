@@ -1,12 +1,104 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const year = new Date().getFullYear();
+
+const footerText = {
+  es: {
+    madeWith: "Hecho con",
+    by: "por Matti Dev",
+    and: "y",
+  },
+  en: {
+    madeWith: "Made with",
+    by: "by Matti Dev",
+    and: "and",
+  },
+};
+
+const t = footerText[lang as 'es' | 'en'];
+---
+
 <footer>
-  <div class="container mx-auto px-4">
-    &copy; 2025
+  <div class="footer-content">
+    <div class="footer-section">
+      <p class="footer-text">
+        © {year} Matti Dev
+      </p>
+    </div>
+
+    <div class="footer-section">
+      <p class="footer-text tech-stack">
+        {t.madeWith} <span class="highlight">Astro</span> {t.and} <span class="highlight">TypeScript</span>
+      </p>
+    </div>
   </div>
 </footer>
 
 <style>
-div {
-  margin: auto
+  footer {
+    background: var(--bg-color);
+    border-top: var(--border-width-thick) solid var(--border-color);
+    padding: var(--space-2xl) 0;
+    margin-top: var(--space-3xl);
+  }
+
+  .footer-content {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+  }
+
+  .footer-section {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .footer-text {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .tech-stack {
+    text-align: right;
+  }
+
+  .highlight {
+    color: var(--text-color);
+    font-weight: 900;
+    padding: 2px 6px;
+    background: var(--bg-color-secondary);
+    border: 2px solid var(--border-color);
+  }
+
+  /* Better visibility in dark mode */
+  [data-theme="dark"] .highlight {
+    background: var(--accent-primary);
+    color: #000000;
+  }
+
+  @media (max-width: 640px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+      padding: 0 var(--space-md);
+    }
+
+    .footer-section {
+      width: 100%;
+    }
+
+    .tech-stack {
+      text-align: center;
+    }
   }
 </style>
-

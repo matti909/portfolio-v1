@@ -11,10 +11,17 @@ export const SITE = {
   defaultImage: "/default-og-image.jpg",
 } as const;
 
-export const NAVIGATION: {
-  main: NavigationItem[];
-} = {
-  main: [{ name: "Home", path: "/" }],
+export const NAVIGATION = {
+  es: [
+    { name: "Inicio", path: "/" },
+    { name: "Blog", path: "/blog" },
+    { name: "Contacto", path: "/contact" },
+  ],
+  en: [
+    { name: "Home", path: "/en" },
+    { name: "Blog", path: "/en/blog" },
+    { name: "Contact", path: "/en/contact" },
+  ],
 } as const;
 
 export const CONTENT = {

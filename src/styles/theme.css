@@ -1,60 +1,86 @@
+/* Neo-Brutalist Design System */
 :root {
-  --bg-color: #111111;
-  --bg-color-muted: #1a1a1a;
+  /* Light mode colors (default) */
+  --bg-color: #FFFFFF;
+  --bg-color-secondary: #FFE951;
+  --bg-color-tertiary: #FF6B6B;
 
-  --text-color: #ffffff;
-  --text-muted: #c0c0c0;
-  --link-color: #60a5fa;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --hover-bg: rgba(255, 255, 255, 0.05);
+  --text-color: #000000;
+  --text-muted: #333333;
 
-  --mesh-color-1: rgba(123, 104, 238, 0.2);
-  --mesh-color-2: rgba(72, 61, 139, 0.15);
+  /* Accent colors - vibrant neons */
+  --accent-primary: #00FF87;
+  --accent-secondary: #FF006B;
+  --accent-tertiary: #00D4FF;
+  --accent-warning: #FFE951;
 
-  --glow-color: rgba(139, 92, 246, 0.3);
-  --top-glow-color: rgba(255, 255, 255, 0.08);
+  /* Borders & shadows - bold and brutal */
+  --border-color: #000000;
+  --shadow-brutal: 8px 8px 0 #000000;
+  --shadow-brutal-hover: 12px 12px 0 #000000;
+  --shadow-brutal-active: 4px 4px 0 #000000;
+  --shadow-small: 4px 4px 0 #000000;
 
-  --font-sans:
-    "Source Sans Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --font-mono: "Roboto Mono", Consolas, "Courier New", monospace;
+  /* Fixed sizes */
+  --border-width: 4px;
+  --border-width-thick: 6px;
 
+  /* Typography */
+  --font-heading: 'Darker Grotesque', 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Roboto Mono', Consolas, 'Courier New', monospace;
+
+  /* Font sizes - bold scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3rem;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Transitions - snappy */
+  --transition-fast: 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Theme Transitions */
-.theme-transition {
-  --theme-transition: var(--transition-base);
+/* Dark mode - Better contrast Neo-Brutalist */
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --bg-color-secondary: #1e1e1e;
+  --bg-color-tertiary: #2a2a2a;
+
+  --text-color: #e0e0e0;
+  --text-muted: #9e9e9e;
+
+  /* Vibrant neons optimized for dark backgrounds */
+  --accent-primary: #00ff88;
+  --accent-secondary: #ff0066;
+  --accent-tertiary: #00ddff;
+  --accent-warning: #ffcc00;
+
+  /* Accent-colored borders and shadows for dark mode pop */
+  --border-color: #00ff88;
+  --shadow-brutal: 8px 8px 0 rgba(0, 255, 136, 0.5);
+  --shadow-brutal-hover: 12px 12px 0 rgba(0, 255, 136, 0.7);
+  --shadow-brutal-active: 4px 4px 0 rgba(0, 255, 136, 0.4);
+  --shadow-small: 4px 4px 0 rgba(0, 255, 136, 0.3);
 }
 
-.theme-transition button,
-.theme-transition input,
-.theme-transition textarea,
-.theme-transition select,
-.theme-transition pre,
-.theme-transition code,
-.theme-transition blockquote,
-.theme-transition .card {
-  transition:
-    background-color var(--theme-transition),
-    border-color var(--theme-transition),
-    box-shadow var(--theme-transition);
-}
-
-/* Remove transition from text color changes */
-.theme-transition * {
-  transition-property: background-color, border-color, box-shadow;
-  transition-duration: var(--theme-transition);
-}
-
+/* Remove old gradient animation */
 @keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

@@ -1,96 +1,123 @@
 ---
 import type {NavigationItem} from "../constants/items.ts";
 import { NAVIGATION } from "../constants/items.ts"
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import { getLangFromUrl } from '../i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
 const pathname = new URL(Astro.request.url).pathname;
 
 const isActive = (path: string) => {
   if (path === "/") return pathname === "/";
+  if (path === "/en") return pathname === "/en" || pathname === "/en/";
   return pathname.startsWith(path);
 };
 
+const navItems = lang === 'es' ? NAVIGATION.es : NAVIGATION.en;
 ---
 
-<header> 
+<header>
   <nav aria-label="Main navigation">
+    <div class="nav-content">
+      <div class="nav-links" role="menubar">
+        {
+          navItems.map(({ name, path }: NavigationItem, index: number) => (
+            <a
+              href={path}
+              class:list={['nav-link', { active: isActive(path) }]}
+              role="menuitem"
+              aria-current={isActive(path) ? "page" : undefined}
+              tabindex={index === 0 ? 0 : -1}
+              data-nav-item
+            >
+              <span class="nav-text">{name}</span>
+            </a>
+          ))
+        }
+      </div>
 
-    <div class="nav-links" role="menubar">
-      {
-         NAVIGATION.main.map(({ name, path }: NavigationItem, index: number) => (
-        <a
-          href={path}
-          class={isActive(path) ? "active" : ""}
-          role="menuitem"
-          aria-current={isActive(path) ? "page" : undefined}
-          tabindex={index === 0 ? 0 : -1}
-          data-nav-item
-        >
-          <span class="nav-text">{name}</span>
-          {isActive(path) && <span class="sr-only">(current page)</span>}
-        </a>
-      ))
-      }        
+      <div class="nav-actions">
+        <ThemeToggle />
+        <LanguageSwitcher />
+      </div>
     </div>
-    
   </nav>
 </header>
 
-
 <style>
-  nav {
-    display: flex;
-    align-items: center;
+  header {
+    background: var(--bg-color-secondary);
+    border-bottom: var(--border-width-thick) solid var(--border-color);
     position: sticky;
     top: 0;
-    background: var(--background);
-    z-index: 10;
-    padding: 1rem 0;
+    z-index: 100;
+    transition: background-color var(--transition-base), border-color var(--transition-base);
+  }
+
+  /* Better header style for dark mode */
+  [data-theme="dark"] header {
+    background: var(--bg-color);
+    border-bottom-color: var(--accent-primary);
+  }
+
+  nav {
+    width: 100%;
+    padding: var(--space-lg) 0;
+  }
+
+  .nav-content {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xl);
   }
 
   .nav-links {
     display: flex;
-    gap: 1.5rem;
+    gap: var(--space-lg);
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  a {
-    color: var(--text-muted);
+  .nav-link {
+    color: var(--text-color);
     text-decoration: none;
-    font-size: var(--text-sm);
-    transition: color var(--transition-base);
+    font-size: var(--text-lg);
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: var(--space-sm) var(--space-md);
+    border: 3px solid transparent;
+    transition: all var(--transition-fast);
     position: relative;
-    padding: 0.25rem 0;
-    outline: 2px solid transparent;
-    outline-offset: 4px;
   }
 
-  a.active::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    height: 1px;
-    background: whitesmoke !important;
-    width: 100% !important;
+  .nav-link:hover {
+    border: 3px solid var(--border-color);
+    background: var(--bg-color-tertiary);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-small);
   }
 
-  a:hover::after {
-    width: 100%;
-  }
-
-  a:focus-visible {
-    outline-color: var(--text-color);
-    outline-offset: 8px;
-  }
-
-  a.active {
+  .nav-link.active {
+    border: 3px solid var(--border-color);
+    background: var(--accent-primary);
+    box-shadow: var(--shadow-small);
     color: var(--text-color);
   }
 
-  a.active::after {
-    width: 100%;
+  /* Dark mode active link needs better contrast */
+  [data-theme="dark"] .nav-link.active {
+    color: #000000;
+  }
+
+  .nav-link:focus-visible {
+    outline: var(--border-width) solid var(--accent-secondary);
+    outline-offset: 4px;
   }
 
   .sr-only {
@@ -105,19 +132,49 @@ const isActive = (path: string) => {
     border: 0;
   }
 
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
   @media (max-width: 768px) {
-    .nav-links {
-      gap: 1rem;
+    .nav-content {
+      padding: 0 var(--space-md);
+      flex-wrap: wrap;
+      gap: var(--space-md);
     }
 
-    a {
-      padding: 0.5rem 0;
+    .nav-links {
+      gap: var(--space-md);
+      flex: 1;
+    }
+
+    .nav-link {
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--text-base);
+    }
+
+    .nav-actions {
+      gap: var(--space-sm);
     }
   }
 
-  @media (hover: none) {
-    a:hover {
-      color: var(--text-muted);
+  @media (max-width: 480px) {
+    .nav-content {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-lg);
+    }
+
+    .nav-links {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-actions {
+      justify-content: center;
+      width: 100%;
     }
   }
 </style>

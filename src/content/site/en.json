@@ -1,0 +1,38 @@
+{
+  "name": "Matti Dev",
+  "title": "FullStack Programmer",
+  "introduction": "I'm a FullStack Programmer focused on Enterprise Applications and Cloud Infrastructure.",
+  "about": {
+    "title": "About Me",
+    "content": "FullStack developer passionate about creating scalable and efficient solutions. With experience in modern technologies and cloud architectures, I specialize in building robust enterprise applications.",
+    "highlights": [
+      "5+ years of web development experience",
+      "Specialized in React, Vue and cloud technologies",
+      "Focus on scalable and maintainable architectures"
+    ]
+  },
+  "sections": {
+    "blog": {
+      "title": "Writing",
+      "viewAllText": "View all posts"
+    },
+    "projects": {
+      "title": "Projects",
+      "viewAllText": "View all projects"
+    },
+    "experience": {
+      "title": "Experience",
+      "viewAllText": "View full résumé"
+    }
+  },
+  "socialLinks": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/matti909"
+    },
+    {
+      "platform": "LinkedIn",
+      "url": "https://linkedin.com/in/matti909"
+    }
+  ]
+}

@@ -11,6 +11,7 @@ const blog = defineCollection({
     description: z.string(),
     publishedAt: z.coerce.date(),
     draft: z.boolean().optional().default(false),
+    lang: z.enum(["es", "en"]),
   }),
 });
 
@@ -21,11 +22,15 @@ const experience = defineCollection({
   }),
   schema: z.object({
     title: z.string(),
+    company: z.string(),
+    url: z.string().url().optional(),
     logo: z.string(),
     description: z.string(),
+    techs: z.array(z.string()).optional(),
     startDate: z.coerce.date(),
     endDate: z.coerce.date().optional(),
     current: z.boolean().optional().default(false),
+    lang: z.enum(["es", "en"]),
   }),
 });
 
@@ -40,15 +45,24 @@ const projects = defineCollection({
     url: z.string().url(),
     featured: z.boolean().optional().default(false),
     techs: z.array(z.string()).optional(),
+    lang: z.enum(["es", "en"]),
   }),
 });
 
 const site = defineCollection({
-  loader: file("./src/content/site/config.json"),
+  loader: glob({
+    pattern: "*.json",
+    base: "./src/content/site",
+  }),
   schema: z.object({
     name: z.string(),
     title: z.string(),
     introduction: z.string(),
+    about: z.object({
+      title: z.string(),
+      content: z.string(),
+      highlights: z.array(z.string()),
+    }),
     sections: z.object({
       blog: z.object({
         title: z.string(),
@@ -85,6 +99,7 @@ const notes = defineCollection({
     publishedAt: z.coerce.date(),
     category: z.string(),
     draft: z.boolean().optional().default(false),
+    lang: z.enum(["es", "en"]),
   }),
 });
 
@@ -101,6 +116,22 @@ const bookmarks = defineCollection({
     publishedAt: z.coerce.date(),
     createdAt: z.coerce.date(),
     description: z.string().optional(),
+    lang: z.enum(["es", "en"]),
+  }),
+});
+
+const stack = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/stack",
+  }),
+  schema: z.object({
+    name: z.string(),
+    category: z.enum(["frontend", "backend", "database", "devops", "tools"]),
+    logo: z.string(),
+    proficiency: z.number().min(1).max(5),
+    order: z.number(),
+    lang: z.enum(["es", "en"]),
   }),
 });
 
@@ -111,4 +142,5 @@ export const collections = {
   site,
   notes,
   bookmarks,
+  stack,
 };

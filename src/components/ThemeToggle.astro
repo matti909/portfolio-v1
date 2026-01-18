@@ -1,0 +1,124 @@
+---
+// Theme toggle component for Neo-Brutalist design
+---
+
+<button
+  id="theme-toggle"
+  class="theme-toggle"
+  aria-label="Toggle theme"
+  title="Toggle theme"
+>
+  <span class="icon-light">☀️</span>
+  <span class="icon-dark">🌙</span>
+</button>
+
+<script>
+  const getThemePreference = () => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme');
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+
+  const setTheme = (theme: string) => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    updateToggleButton(theme);
+  };
+
+  const updateToggleButton = (theme: string) => {
+    const button = document.getElementById('theme-toggle');
+    if (!button) return;
+
+    const iconLight = button.querySelector('.icon-light') as HTMLElement;
+    const iconDark = button.querySelector('.icon-dark') as HTMLElement;
+
+    if (theme === 'dark') {
+      iconLight.style.display = 'none';
+      iconDark.style.display = 'block';
+    } else {
+      iconLight.style.display = 'block';
+      iconDark.style.display = 'none';
+    }
+  };
+
+  const toggleTheme = () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+  };
+
+  // Initialize theme on page load
+  const theme = getThemePreference();
+  setTheme(theme);
+
+  // Add click listener
+  const button = document.getElementById('theme-toggle');
+  if (button) {
+    button.addEventListener('click', toggleTheme);
+  }
+
+  // Handle theme persistence during view transitions
+  document.addEventListener('astro:after-swap', () => {
+    const theme = getThemePreference();
+    setTheme(theme);
+
+    // Re-attach event listener
+    const button = document.getElementById('theme-toggle');
+    if (button) {
+      button.addEventListener('click', toggleTheme);
+    }
+  });
+</script>
+
+<style>
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--bg-color);
+    border: var(--border-width) solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-small);
+    font-size: var(--text-xl);
+    padding: 0;
+    position: relative;
+  }
+
+  .theme-toggle:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-brutal);
+    background: var(--accent-warning);
+  }
+
+  .theme-toggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+
+  .theme-toggle:focus-visible {
+    outline: var(--border-width) solid var(--accent-secondary);
+    outline-offset: 4px;
+  }
+
+  .icon-light,
+  .icon-dark {
+    display: block;
+    line-height: 1;
+  }
+
+  .icon-dark {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      font-size: var(--text-lg);
+    }
+  }
+</style>
