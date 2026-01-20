@@ -38,7 +38,7 @@ const sortedPosts = allBlogPosts.sort(
               day: 'numeric'
             })}</time>
             <h2>
-              <a href={`/en/blog/${post.id}`}>{post.data.title}</a>
+              <a href={`/en/blog/${post.id.split('/').pop()}`}>{post.data.title}</a>
             </h2>
             <p class="text-muted">{post.data.description}</p>
           </article>

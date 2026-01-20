@@ -12,6 +12,7 @@ const t = useTranslations(lang);
 
 const experiences = await getCollection("experience", ({ data }) => data.lang === lang);
 const projects = await getCollection("projects", ({ data }) => data.lang === lang);
+const blogPosts = await getCollection("blog", ({ data }) => data.lang === lang && !data.draft);
 
 const siteConfig = await getEntry("site", lang);
 if (!siteConfig) {
@@ -47,6 +48,27 @@ const formatDate = (date: Date | undefined) => {
         )
       }
     </section>
+
+    {blogPosts.length > 0 && (
+      <section class="section">
+        <div class="section-header">
+          <h2>{site.sections.blog.title}</h2>
+        </div>
+        <ContentList>
+          {
+            blogPosts.map((post) => (
+              <article class="card-brutal">
+                <div class="title-row">
+                  <a href={`/blog/${post.id.split('/').pop()}`}>{post.data.title}</a>
+                  <time>{post.data.publishedAt.toLocaleDateString("es-ES", { year: "numeric", month: "short", day: "numeric" })}</time>
+                </div>
+                <p class="text-muted">{post.data.description}</p>
+              </article>
+            ))
+          }
+        </ContentList>
+      </section>
+    )}
 
     <section class="section">
       <div class="section-header">
