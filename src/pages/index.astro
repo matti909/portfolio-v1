@@ -2,9 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Container from '../components/ui/Container.astro'
 import ContentList from '../components/ui/ContentList.astro'
-import Section from '../components/ui/Section.astro'
 import { getCollection, getEntry } from "astro:content"
-import type { CollectionEntry } from "astro:content"
 import { getLangFromUrl, useTranslations } from '../i18n/utils'
 
 const lang = getLangFromUrl(Astro.url);
@@ -49,7 +47,7 @@ const formatDate = (date: Date | undefined) => {
       }
     </section>
 
-    {blogPosts.length > 0 && (
+   <!--  {blogPosts.length > 0 && (
       <section class="section">
         <div class="section-header">
           <h2>{site.sections.blog.title}</h2>
@@ -68,7 +66,7 @@ const formatDate = (date: Date | undefined) => {
           }
         </ContentList>
       </section>
-    )}
+    )} -->
 
     <section class="section">
       <div class="section-header">
