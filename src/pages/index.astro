@@ -79,18 +79,19 @@ const formatDate = (date: Date | undefined) => {
           projects.map((project) => (
             <article class="card-brutal">
               <div class="title-row">
-                {project.data.url ? (
-                  <a href={project.data.url} target="_blank" rel="noopener noreferrer">
-                    {project.data.title}
-                  </a>
-                ) : (
-                  <span class="project-title">{project.data.title}</span>
-                )}
-                {project.data.github && (
-                  <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="github-link">
-                    GitHub
-                  </a>
-                )}
+                <span class="project-title">{project.data.title}</span>
+                <div class="project-links">
+                  {project.data.production && (
+                    <a href={project.data.production} target="_blank" rel="noopener noreferrer" class="visit-link">
+                      Visitar
+                    </a>
+                  )}
+                  {project.data.github && (
+                    <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="github-link">
+                      GitHub
+                    </a>
+                  )}
+                </div>
               </div>
               <p class="text-muted">{project.data.description}</p>
               {project.data.techs && (
@@ -189,6 +190,20 @@ const formatDate = (date: Date | undefined) => {
   }
 
   .project-title {
+    font-weight: 700;
+  }
+
+  .project-links {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .visit-link {
+    font-size: var(--text-sm);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--accent-primary);
+    border: 2px solid var(--border-color);
+    color: #000;
     font-weight: 700;
   }
 
