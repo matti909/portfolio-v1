@@ -1,7 +1,7 @@
 ---
 title: "Frontend Developer"
 company: "Codefend"
-url: "https://codefend.com"
+url: "https://codefend.ai"
 logo: "/codefend.svg"
 description: "Led the migration of the company's main application. The original application was built with Solid.js. I was tasked with converting all components to React with TypeScript"
 techs: ["React", "TypeScript", "Solid.js"]
