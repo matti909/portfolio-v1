@@ -41,6 +41,9 @@ const sortedPosts = allBlogPosts.sort(
               <a href={`/blog/${post.id.split('/').pop()}`}>{post.data.title}</a>
             </h2>
             <p class="text-muted">{post.data.description}</p>
+            <a href={`/blog/${post.id.split('/').pop()}`} class="read-more">
+              {lang === 'es' ? 'Seguir leyendo →' : 'Continue reading →'}
+            </a>
           </article>
         ))}
       </div>
@@ -103,6 +106,20 @@ const sortedPosts = allBlogPosts.sort(
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-muted);
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: var(--space-md);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+
+  .read-more:hover {
+    transform: translateX(4px);
   }
 
   @media (max-width: 768px) {
