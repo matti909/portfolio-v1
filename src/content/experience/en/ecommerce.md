@@ -1,7 +1,7 @@
 ---
 title: "Ecommerce Fullstack"
 company: "Vape Shop"
-url: "https://vapeshopcba.com"
+url: "https://vapeshopcbav3.vercel.app"
 logo: ""
 description: "Complete ecommerce with Mercado Pago payment gateway integration, WhatsApp, and email service. The platform was built with Next.js 16, Drizzle for database communication, PostgreSQL and Neon. Features private routes with admin dashboard, Strapi server for content management, server actions, proxy, and authentication with Better-Auth"
 techs: ["Next.js", "Drizzle ORM", "Neon", "PostgreSQL", "Vercel", "Strapi"]
