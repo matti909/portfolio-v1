@@ -81,11 +81,12 @@
     background: var(--bg-color);
     border: var(--border-width) solid var(--border-color);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
     box-shadow: var(--shadow-small);
     font-size: var(--text-xl);
     padding: 0;
     position: relative;
+    touch-action: manipulation;
   }
 
   .theme-toggle:hover {

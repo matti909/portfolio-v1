@@ -29,6 +29,7 @@ const t = useTranslations(lang);
             id="name"
             name="name"
             required
+            autocomplete="name"
             class="input-brutal"
             placeholder="Tu nombre"
           >
@@ -41,6 +42,7 @@ const t = useTranslations(lang);
             id="email"
             name="email"
             required
+            autocomplete="email"
             class="input-brutal"
             placeholder="tu@email.com"
           >
@@ -53,8 +55,9 @@ const t = useTranslations(lang);
             name="message"
             rows="6"
             required
+            autocomplete="off"
             class="input-brutal"
-            placeholder="Tu mensaje..."
+            placeholder="Tu mensaje…"
           ></textarea>
         </div>
 
@@ -66,14 +69,14 @@ const t = useTranslations(lang);
       </form>
 
       <div class="contact-info">
-        <h2>📬 Otras formas de contacto</h2>
+        <h2><span aria-hidden="true">📬</span> Otras formas de contacto</h2>
         <div class="contact-links">
-          <a href="https://github.com/matti909" target="_blank" class="card-brutal hover-brutal">
-            <span class="icon">💻</span>
+          <a href="https://github.com/matti909" target="_blank" rel="noopener noreferrer" class="card-brutal hover-brutal">
+            <span class="icon" aria-hidden="true">💻</span>
             <span>GitHub</span>
           </a>
-          <a href="https://linkedin.com/in/matti909" target="_blank" class="card-brutal hover-brutal">
-            <span class="icon">💼</span>
+          <a href="https://linkedin.com/in/matti909" target="_blank" rel="noopener noreferrer" class="card-brutal hover-brutal">
+            <span class="icon" aria-hidden="true">💼</span>
             <span>LinkedIn</span>
           </a>
         </div>
@@ -205,13 +208,15 @@ const t = useTranslations(lang);
       if (!emailRegex.test(email)) {
         messageDiv.textContent = 'Por favor ingresa un email válido';
         messageDiv.className = 'form-message error';
+        const emailInput = form.querySelector('#email') as HTMLInputElement;
+        emailInput?.focus();
         return;
       }
 
       // Show loading state
       const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
       const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Enviando...';
+      submitBtn.textContent = 'Enviando\u2026';
       submitBtn.disabled = true;
 
       try {
@@ -232,6 +237,8 @@ const t = useTranslations(lang);
       } catch (error) {
         messageDiv.textContent = 'Error al enviar el mensaje. Por favor intenta de nuevo.';
         messageDiv.className = 'form-message error';
+        const firstInput = form.querySelector('input, textarea') as HTMLElement;
+        firstInput?.focus();
       } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;

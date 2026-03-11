@@ -78,9 +78,19 @@
   --shadow-small: 4px 4px 0 rgba(0, 255, 136, 0.3);
 }
 
-/* Remove old gradient animation */
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ─── Dot grid background ─────────────────────────────────── */
+:root {
+  --dot-grid: radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px);
+  --dot-size: 24px;
+}
+
+[data-theme="dark"] {
+  --dot-grid: radial-gradient(circle, rgba(0,255,136,0.08) 1px, transparent 1px);
+}
+
+/* Apply subtle dot grid only to hero area via a helper class */
+.hero-dot-bg {
+  background-image: var(--dot-grid);
+  background-size: var(--dot-size) var(--dot-size);
+  background-position: center center;
 }

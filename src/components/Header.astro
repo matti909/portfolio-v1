@@ -20,6 +20,7 @@ const navItems = lang === 'es' ? NAVIGATION.es : NAVIGATION.en;
 <header>
   <nav aria-label="Main navigation">
     <div class="nav-content">
+      <a href={lang === 'en' ? '/en' : '/'} class="nav-brand" aria-label="Home — Matti Dev">&lt;matti /&gt;</a>
       <div class="nav-links" role="menubar">
         {
           navItems.map(({ name, path }: NavigationItem, index: number) => (
@@ -28,7 +29,7 @@ const navItems = lang === 'es' ? NAVIGATION.es : NAVIGATION.en;
               class:list={['nav-link', { active: isActive(path) }]}
               role="menuitem"
               aria-current={isActive(path) ? "page" : undefined}
-              tabindex={index === 0 ? 0 : -1}
+              tabindex={0}
               data-nav-item
             >
               <span class="nav-text">{name}</span>
@@ -67,13 +68,41 @@ const navItems = lang === 'es' ? NAVIGATION.es : NAVIGATION.en;
   }
 
   .nav-content {
-    max-width: 680px;
+    max-width: 760px;
     margin: 0 auto;
     padding: 0 var(--space-lg);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-xl);
+  }
+
+  .nav-brand {
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    font-weight: 900;
+    color: #000;
+    text-decoration: none;
+    background: var(--accent-primary);
+    padding: var(--space-xs) var(--space-sm);
+    border: 3px solid var(--border-color);
+    box-shadow: 3px 3px 0 var(--border-color);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    touch-action: manipulation;
+  }
+
+  .nav-brand:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--border-color);
+    color: #000;
+  }
+
+  .nav-brand:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 var(--border-color);
   }
 
   .nav-links {
@@ -92,7 +121,7 @@ const navItems = lang === 'es' ? NAVIGATION.es : NAVIGATION.en;
     text-transform: uppercase;
     padding: var(--space-sm) var(--space-md);
     border: 3px solid transparent;
-    transition: all var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
     position: relative;
   }
 
