@@ -27,3 +27,7 @@ pnpm-debug.log*
 
 CLAUDE.md
 pnpm-lock.yaml
+
+.agents/*
+.claude/*
+skills-lock.*
